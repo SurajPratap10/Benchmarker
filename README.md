@@ -1,9 +1,10 @@
 # TTS Benchmarking Tool
 
-Production-ready benchmarking tool for comparing Text-to-Speech (TTS) providers with comprehensive metrics and analysis.<img width="1511" height="854" alt="Screenshot 2025-11-11 at 3 51 55 AM" src="https://github.com/user-attachments/assets/68664aee-157b-414f-8b9e-0104957a2e60" />
-
+Production-ready benchmarking tool for comparing Text-to-Speech (TTS) providers with comprehensive metrics and analysis.
+<img width="1511" height="856" alt="Screenshot 2025-11-11 at 3 53 33 AM" src="https://github.com/user-attachments/assets/b04e4bf8-51b1-43aa-9eef-d8dee42ae063" />
 
 ## Features
+
 
 - **Multi-Provider Support**: OpenAI, Deepgram, ElevenLabs, Cartesia
 - **Secure Authentication**: Login system with session management

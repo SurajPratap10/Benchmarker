@@ -1,6 +1,7 @@
 # TTS Benchmarking Tool
 
-Production-ready benchmarking tool for comparing Text-to-Speech (TTS) providers with comprehensive metrics and analysis.
+Production-ready benchmarking tool for comparing Text-to-Speech (TTS) providers with comprehensive metrics and analysis.<img width="1511" height="854" alt="Screenshot 2025-11-11 at 3 51 55 AM" src="https://github.com/user-attachments/assets/68664aee-157b-414f-8b9e-0104957a2e60" />
+
 
 ## Features
 

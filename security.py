@@ -237,9 +237,17 @@ def create_security_dashboard():
     with col1:
         # API Key Status
         openai_key = os.getenv("OPENAI_API_KEY")
-        murf_key = os.getenv("MURF_API_KEY")
+        deepgram_key = os.getenv("DEEPGRAM_API_KEY")
+        elevenlabs_key = os.getenv("ELEVENLABS_API_KEY")
+        cartesia_key = os.getenv("CARTESIA_API_KEY")
         
-        key_status = "✅ Configured" if (openai_key and murf_key) else "⚠️ Partial" if (openai_key or murf_key) else "❌ Missing"
+        keys_configured = sum([bool(openai_key), bool(deepgram_key), bool(elevenlabs_key), bool(cartesia_key)])
+        if keys_configured >= 2:
+            key_status = "✅ Configured"
+        elif keys_configured >= 1:
+            key_status = "⚠️ Partial"
+        else:
+            key_status = "❌ Missing"
         st.metric("API Keys", key_status)
     
     with col2:

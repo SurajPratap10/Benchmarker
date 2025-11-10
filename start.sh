@@ -24,10 +24,12 @@ else
 fi
 
 # Check API keys
-if [ -z "$MURF_API_KEY" ] && [ -z "$DEEPGRAM_API_KEY" ]; then
+if [ -z "$DEEPGRAM_API_KEY" ] && [ -z "$OPENAI_API_KEY" ] && [ -z "$ELEVENLABS_API_KEY" ] && [ -z "$CARTESIA_API_KEY" ]; then
     echo "⚠️ No API keys found. Please set them in the .env file:"
-    echo "   MURF_API_KEY=your_murf_key"
     echo "   DEEPGRAM_API_KEY=your_deepgram_key"
+    echo "   OPENAI_API_KEY=your_openai_key"
+    echo "   ELEVENLABS_API_KEY=your_elevenlabs_key"
+    echo "   CARTESIA_API_KEY=your_cartesia_key"
 fi
 
 # Start the application

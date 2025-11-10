@@ -9,6 +9,45 @@ import numpy as np
 from typing import List, Dict, Any
 from benchmarking_engine import BenchmarkResult
 
+def create_ttfb_distribution(results: List[BenchmarkResult]) -> go.Figure:
+    """Create TTFB distribution chart"""
+    
+    # Prepare data
+    data = []
+    for result in results:
+        if result.success and result.ttfb > 0:
+            data.append({
+                "provider": result.provider.title(),
+                "ttfb": result.ttfb,
+                "category": result.metadata.get("category", "unknown"),
+                "word_count": result.metadata.get("word_count", 0)
+            })
+    
+    df = pd.DataFrame(data)
+    
+    if df.empty:
+        return go.Figure().add_annotation(text="No data available", x=0.5, y=0.5)
+    
+    # Create box plot
+    fig = px.box(
+        df,
+        x="provider",
+        y="ttfb",
+        color="provider",
+        title="TTFB Distribution by Provider",
+        labels={"ttfb": "TTFB (ms)", "provider": "Provider"},
+        hover_data=["category", "word_count"]
+    )
+    
+    fig.update_layout(
+        height=400,
+        showlegend=False,
+        xaxis_title="Provider",
+        yaxis_title="TTFB (ms)"
+    )
+    
+    return fig
+
 def create_latency_distribution(results: List[BenchmarkResult]) -> go.Figure:
     """Create latency distribution chart"""
     

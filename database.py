@@ -70,6 +70,12 @@ class BenchmarkDatabase:
         except:
             pass
         
+        # Add user_id column for multi-user support
+        try:
+            cursor.execute('ALTER TABLE benchmark_results ADD COLUMN user_id INTEGER DEFAULT 1')
+        except:
+            pass
+        
         # Create ELO ratings table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS elo_ratings (
@@ -126,8 +132,10 @@ class BenchmarkDatabase:
         conn.commit()
         conn.close()
     
-    def save_benchmark_result(self, result, test_id: str = None):
+    def save_benchmark_result(self, result, test_id: str = None, user_id: int = None):
         """Save a benchmark result to database"""
+        if user_id is None:
+            user_id = 1  # Default user for open access
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -135,8 +143,8 @@ class BenchmarkDatabase:
             INSERT INTO benchmark_results 
             (test_id, provider, voice, text, success, latency_ms, file_size_bytes, 
              error_message, metadata, timestamp, category, word_count, 
-             location_country, location_city, location_region, latency_1, ttfb)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             location_country, location_city, location_region, latency_1, ttfb, user_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             test_id or f"test_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             result.provider,
@@ -154,17 +162,18 @@ class BenchmarkDatabase:
             getattr(result, 'location_city', 'Unknown'),
             getattr(result, 'location_region', 'Unknown'),
             getattr(result, 'latency_1', 0.0),
-            getattr(result, 'ttfb', 0.0)
+            getattr(result, 'ttfb', 0.0),
+            user_id
         ))
         
         conn.commit()
         conn.close()
         
-        # Update provider statistics
-        self.update_provider_stats(result.provider, result)
+        # Update provider statistics for this user
+        self.update_provider_stats(result.provider, result, user_id)
     
-    def update_provider_stats(self, provider: str, result):
-        """Update provider statistics"""
+    def update_provider_stats(self, provider: str, result, user_id: int = 1):
+        """Update provider statistics (shared across all users)"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -323,7 +332,7 @@ class BenchmarkDatabase:
         
         return stats
     
-    def get_recent_results(self, limit: int = 100) -> pd.DataFrame:
+    def get_recent_results(self, limit: int = 100, user_id: int = None) -> pd.DataFrame:
         """Get recent benchmark results as DataFrame"""
         conn = sqlite3.connect(self.db_path)
         

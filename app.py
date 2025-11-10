@@ -2,7 +2,6 @@
 TTS Benchmarking Tool - Streamlit Application
 """
 import streamlit as st
-import streamlit.components.v1 as components
 import asyncio
 import pandas as pd
 import plotly.express as px
@@ -28,8 +27,8 @@ from database import BenchmarkDatabase
 
 # Page configuration
 st.set_page_config(
-    page_title=UI_CONFIG["page_title"],
-    page_icon=UI_CONFIG["page_icon"],
+    page_title="Benchmarker | TTS Benchmarking Platform",
+    page_icon="🅱️",
     layout=UI_CONFIG["layout"],
     initial_sidebar_state="expanded"
 )
@@ -91,101 +90,84 @@ def check_configuration():
 def main():
     """Main application function"""
     
-    # NEW FEATURE ANNOUNCEMENT - Above header
+    # Minimal Distinctive Header
     st.markdown("""
     <style>
-    @keyframes catchyPulse {
-        0% { 
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7);
-        }
-        50% { 
-            transform: scale(1.15);
-            box-shadow: 0 0 10px 5px rgba(255, 75, 75, 0);
-        }
-        100% { 
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255, 75, 75, 0);
-        }
+    .benchmarker-header {
+        padding: 1.5rem 0 2rem 0;
+        border-bottom: 1px solid #E0E0E0;
+        margin-bottom: 2rem;
     }
-    .feature-banner {
-        padding: 0;
-        margin: 0 0 10px 0;
+    .benchmarker-logo {
         display: flex;
         align-items: center;
-        gap: 10px;
-        justify-content: flex-end;
-        position: relative;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
     }
-    .new-badge {
-        animation: catchyPulse 1.5s ease-in-out infinite;
-        display: inline-block;
-        background: #ff4b4b;
+    .benchmarker-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #0A7C7E 0%, #1A1A1A 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
         color: white;
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: bold;
+        letter-spacing: -0.05em;
     }
-    .feature-text {
-        color: #262730;
-        font-size: 15px;
+    .benchmarker-name {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1A1A1A;
         margin: 0;
-        position: relative;
-        display: inline-block;
+        letter-spacing: -0.03em;
     }
-    .feature-text strong {
-        position: relative;
-        display: inline-block;
-        padding-bottom: 5px;
+    .benchmarker-name span {
+        color: #0A7C7E;
+        font-weight: 700;
     }
-    .feature-text strong::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        overflow: hidden;
-        background: repeating-linear-gradient(
-            to right,
-            #808080 0px,
-            #808080 6px,
-            transparent 6px,
-            transparent 12px
-        );
-        background-size: 12px 2px;
-        animation: moveDots 1.5s linear infinite;
-    }
-    @keyframes moveDots {
-        0% { 
-            background-position: 0 0;
-        }
-        100% { 
-            background-position: 12px 0;
-        }
+    .benchmarker-tagline {
+        color: #6B6B6B;
+        font-size: 0.95rem;
+        margin: 0;
+        font-weight: 400;
     }
     </style>
-    <div class="feature-banner">
-        <span class="new-badge">LIVE NOW</span>
-        <p class="feature-text">
-            <strong>Streaming Race</strong>
-        </p>
+    <div class="benchmarker-header">
+        <div class="benchmarker-logo">
+            <div class="benchmarker-icon">B</div>
+            <div>
+                <div class="benchmarker-name"><span>Bench</span>marker</div>
+            </div>
+        </div>
+        <p class="benchmarker-tagline">TTS Provider Benchmarking & Analysis Platform</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Header
-    st.title("TTS Benchmarking Tool")
-    st.markdown("Compare Text-to-Speech providers with comprehensive metrics and analysis")
-    
     # Sidebar for navigation and configuration
     with st.sidebar:
+        # Minimal Logo in Sidebar
+        st.markdown("""
+        <div style="padding: 1rem 0 1.5rem 0; border-bottom: 1px solid #E0E0E0; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #0A7C7E 0%, #1A1A1A 100%); 
+                           border-radius: 6px; display: flex; align-items: center; justify-content: center; 
+                           font-size: 16px; font-weight: 700; color: white; letter-spacing: -0.05em;">B</div>
+                <div style="font-size: 1.3rem; font-weight: 600; color: #1A1A1A; letter-spacing: -0.02em;">
+                    <span style="color: #0A7C7E; font-weight: 700;">Bench</span>marker
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
         # Navigation - moved to top
         default_page = "Quick Test"
         
         st.subheader("Navigator")
         
-        pages = ["Leaderboard", "Quick Test", "Blind Test", "Streaming Race", "Batch Benchmark", "Results Analysis", "ROI Calculator"]
+        pages = ["Leaderboard", "Quick Test", "Blind Test", "Streaming Race", "Batch Benchmark", "Results Analysis"]
         
         # Create navbar-style buttons
         for i, page_name in enumerate(pages):
@@ -238,9 +220,7 @@ def main():
     elif page == "Results Analysis":
         results_analysis_page()
     elif page == "Leaderboard":
-        leaderboard_page()
-    elif page == "ROI Calculator":
-        roi_calculator_page()
+        leaderboard_page() 
 
 def quick_test_page():
     """Quick test page for single TTS comparisons"""
@@ -393,7 +373,6 @@ def display_quick_test_results(results: List[BenchmarkResult]):
             "Location": get_location_display(result),
             "Success": "✅" if result.success else "❌",
             "TTFB (ms)": f"{result.ttfb:.1f}" if result.success and result.ttfb > 0 else "N/A",
-            "Latency (ms)": f"{result.latency_ms:.1f}" if result.success else "N/A",
             "File Size (KB)": f"{result.file_size_bytes / 1024:.1f}" if result.success else "N/A",
             "Voice": result.voice,
             "Error": result.error_message if not result.success else ""
@@ -409,14 +388,14 @@ def display_quick_test_results(results: List[BenchmarkResult]):
         col1, col2 = st.columns(2)
         
         with col1:
-            # Latency comparison
-            fig_latency = px.bar(
+            # TTFB comparison
+            fig_ttfb = px.bar(
                 x=[r.provider.title() for r in successful_results],
-                y=[r.latency_ms for r in successful_results],
-                title="Latency Comparison",
-                labels={"x": "Provider", "y": "Latency (ms)"}
+                y=[r.ttfb for r in successful_results],
+                title="TTFB Comparison",
+                labels={"x": "Provider", "y": "TTFB (ms)"}
             )
-            st.plotly_chart(fig_latency, use_container_width=True)
+            st.plotly_chart(fig_ttfb, use_container_width=True)
         
         with col2:
             # File size comparison
@@ -452,7 +431,6 @@ def display_quick_test_results(results: List[BenchmarkResult]):
                         """
                         st.markdown(audio_html, unsafe_allow_html=True)
                         st.caption(f"TTFB: {result.ttfb:.1f}ms")
-                        st.caption(f"Latency: {result.latency_ms:.1f}ms")
                         st.caption(f"Size: {result.file_size_bytes/1024:.1f} KB")
                         
                         # Download button for MP3
@@ -709,7 +687,6 @@ def display_blind_test_samples():
                 "Model": result.model_name,
                 "Location": get_location_display(result),
                 "TTFB (ms)": f"{result.ttfb:.1f}" if result.ttfb > 0 else "N/A",
-                "Latency (ms)": f"{result.latency_ms:.1f}",
                 "File Size (KB)": f"{result.file_size_bytes / 1024:.1f}",
                 "Your Choice": "🏆 Winner" if is_winner else ""
             })
@@ -745,7 +722,6 @@ def display_blind_test_samples():
                         """
                         st.markdown(audio_html, unsafe_allow_html=True)
                         st.caption(f"TTFB: {result.ttfb:.1f}ms")
-                        st.caption(f"Latency: {result.latency_ms:.1f}ms")
                         st.caption(f"Size: {result.file_size_bytes/1024:.1f} KB")
                         
                         # Download button
@@ -806,7 +782,7 @@ def streaming_race_page():
     """Streaming race page - visualize real-time TTS generation"""
     
     st.header("⚡ Streaming Race")
-    st.markdown("Watch TTS providers race in real-time! See Time to First Byte (TTFB) and total generation speed (Latency).")
+    st.markdown("Watch TTS providers race in real-time! See Time to First Byte (TTFB) and generation speed.")
     
     # Get configuration status
     config_status = check_configuration()
@@ -857,15 +833,14 @@ def streaming_race_page():
         """)
     
     # Provider selection
-    # Default to murf_falcon_oct23 and deepgram_aura2 if available
+    # Default to deepgram_aura2 and first available if configured
     default_race_providers = []
-    if "murf_falcon_oct23" in configured_providers:
-        default_race_providers.append("murf_falcon_oct23")
     if "deepgram_aura2" in configured_providers:
         default_race_providers.append("deepgram_aura2")
-    # If those aren't available, fall back to first 2 configured providers
-    if len(default_race_providers) < 2:
-        default_race_providers = configured_providers[:min(2, len(configured_providers))]
+    # Add other configured providers to reach at least 2
+    for provider in configured_providers:
+        if provider not in default_race_providers and len(default_race_providers) < 2:
+            default_race_providers.append(provider)
     
     selected_providers = st.multiselect(
         "Select providers to race (minimum 2):",
@@ -1051,7 +1026,6 @@ def display_race_results(race_results: Dict[str, Any]):
             "Provider": provider.replace('_', ' ').title(),
             "Model": get_model_name(provider),
             "TTFB (ms)": f"{data['ttfb']:.1f}",
-            "Latency (ms)": f"{data['total_time']:.1f}",
             "Speed (char/s)": f"{speed:.1f}",
             "File Size (KB)": f"{data['file_size'] / 1024:.1f}"
         })
@@ -1076,17 +1050,17 @@ def display_race_results(race_results: Dict[str, Any]):
         st.plotly_chart(fig_ttfb, use_container_width=True)
     
     with col2:
-        # Latency comparison
-        fig_total = px.bar(
+        # Speed comparison
+        fig_speed = px.bar(
             x=[r['Provider'] for r in results_data],
-            y=[float(r['Latency (ms)']) for r in results_data],
-            title="Total Latency",
-            labels={"x": "Provider", "y": "Latency (ms)"},
-            color=[float(r['Latency (ms)']) for r in results_data],
-            color_continuous_scale="RdYlGn_r"
+            y=[float(r['Speed (char/s)']) for r in results_data],
+            title="Generation Speed",
+            labels={"x": "Provider", "y": "Speed (char/s)"},
+            color=[float(r['Speed (char/s)']) for r in results_data],
+            color_continuous_scale="RdYlGn"
         )
-        fig_total.update_layout(showlegend=False)
-        st.plotly_chart(fig_total, use_container_width=True)
+        fig_speed.update_layout(showlegend=False)
+        st.plotly_chart(fig_speed, use_container_width=True)
     
     # Audio playback
     st.subheader("🎧 Audio Samples")
@@ -1327,8 +1301,6 @@ def display_benchmark_summary(results: List[BenchmarkResult]):
             "Location": f"{geo_service.get_country_flag()} {current_location}",
             "Success Rate": f"{summary.success_rate:.1f}%",
             "Avg TTFB": f"{avg_ttfb:.1f}ms",
-            "Avg Latency": f"{summary.avg_latency_ms:.1f}ms",
-            "P95 Latency": f"{summary.p95_latency_ms:.1f}ms",
             "Avg File Size": f"{summary.avg_file_size_bytes/1024:.1f}KB",
             "Total Errors": summary.total_errors
         })
@@ -1342,7 +1314,7 @@ def results_analysis_page():
     st.header("📈 Results Analysis")
     st.markdown("Analyze benchmark results with detailed metrics and comparisons")
     
-    # Load results from database instead of session state
+    # Load results from database
     db_results = db.get_recent_results(limit=1000)
     
     if db_results.empty:
@@ -1416,10 +1388,10 @@ def display_analysis_charts(results: List[BenchmarkResult]):
         st.warning("No successful results to analyze.")
         return
     
-    # Latency distribution
-    st.subheader("⏰ Latency Distribution")
-    fig_latency = visualizations.create_latency_distribution(successful_results)
-    st.plotly_chart(fig_latency, use_container_width=True)
+    # TTFB distribution
+    st.subheader("⏰ TTFB Distribution")
+    fig_ttfb = visualizations.create_ttfb_distribution(successful_results)
+    st.plotly_chart(fig_ttfb, use_container_width=True)
     
     # Success rate by provider
     st.subheader("✅ Success Rate Analysis")
@@ -1433,17 +1405,17 @@ def display_analysis_charts(results: List[BenchmarkResult]):
     for result in successful_results:
         category = result.metadata.get("category", "unknown")
         if category not in category_data:
-            category_data[category] = {"latencies": [], "providers": []}
-        category_data[category]["latencies"].append(result.latency_ms)
+            category_data[category] = {"ttfbs": [], "providers": []}
+        category_data[category]["ttfbs"].append(result.ttfb)
         category_data[category]["providers"].append(result.provider)
     
     if category_data:
         fig_category = px.box(
             x=[provider for cat_data in category_data.values() for provider in cat_data["providers"]],
-            y=[latency for cat_data in category_data.values() for latency in cat_data["latencies"]],
-            color=[cat for cat, cat_data in category_data.items() for _ in cat_data["latencies"]],
-            title="Latency by Category and Provider",
-            labels={"x": "Provider", "y": "Latency (ms)", "color": "Category"}
+            y=[ttfb for cat_data in category_data.values() for ttfb in cat_data["ttfbs"]],
+            color=[cat for cat, cat_data in category_data.items() for _ in cat_data["ttfbs"]],
+            title="TTFB by Category and Provider",
+            labels={"x": "Provider", "y": "TTFB (ms)", "color": "Category"}
         )
         st.plotly_chart(fig_category, use_container_width=True)
 
@@ -1486,27 +1458,21 @@ def leaderboard_page():
     df_leaderboard = pd.DataFrame(leaderboard)
     df_leaderboard["Provider"] = df_leaderboard["provider"].str.title()
     
-    # Add model names, location, and latency stats
+    # Add model names, location, and TTFB stats
     df_leaderboard["Model"] = df_leaderboard["provider"].apply(get_model_name)
     df_leaderboard["Location"] = location_display
     df_leaderboard["Avg TTFB (ms)"] = df_leaderboard["provider"].apply(
         lambda p: f"{ttfb_stats.get(p, {}).get('avg_ttfb', 0):.1f}"
     )
-    df_leaderboard["Avg Latency (ms)"] = df_leaderboard["provider"].apply(
-        lambda p: f"{latency_stats.get(p, {}).get('avg_latency', 0):.1f}"
-    )
-    df_leaderboard["P95 Latency (ms)"] = df_leaderboard["provider"].apply(
-        lambda p: f"{latency_stats.get(p, {}).get('p95_latency', 0):.1f}"
-    )
     
     # Format the display columns
     display_df = df_leaderboard[[
-        "rank", "Provider", "Model", "Location", "elo_rating", "Avg TTFB (ms)", "Avg Latency (ms)", "P95 Latency (ms)",
+        "rank", "Provider", "Model", "Location", "elo_rating", "Avg TTFB (ms)",
         "games_played", "wins", "losses", "win_rate"
     ]].copy()
     
     display_df.columns = [
-        "Rank", "Provider", "Model", "Location", "ELO Rating", "Avg TTFB", "Avg Latency", "P95 Latency",
+        "Rank", "Provider", "Model", "Location", "ELO Rating", "Avg TTFB",
         "Games", "Wins", "Losses", "Win Rate %"
     ]
     
@@ -1524,13 +1490,16 @@ def leaderboard_page():
         location_display = f"{geo_service.get_country_flag()} {geo_service.get_location_string()}"
         
         for provider, stats in provider_stats.items():
+            # Get TTFB stats for this provider
+            provider_ttfb = ttfb_stats.get(provider, {}).get('avg_ttfb', 0)
+            
             stats_data.append({
                 "Provider": provider.title(),
                 "Model": get_model_name(provider),
                 "Location": location_display,
                 "Total Tests": stats['total_tests'],
                 "Success Rate %": f"{stats['success_rate']:.1f}%",
-                "Avg Latency (ms)": f"{stats['avg_latency']:.1f}",
+                "Avg TTFB (ms)": f"{provider_ttfb:.1f}",
                 "Avg File Size (KB)": f"{stats['avg_file_size']/1024:.1f}"
             })
         
@@ -1566,69 +1535,6 @@ def leaderboard_page():
             st.dataframe(vote_df, use_container_width=True, hide_index=True)
     else:
         st.info("No user votes yet. Vote in Quick Test to start building preference data!")
-
-def roi_calculator_page():
-    """ROI Calculator page for TTS provider cost analysis"""
-    
-    st.header("💰 ROI Calculator")
-    st.markdown("Calculate the return on investment for different TTS providers based on your usage patterns.")
-    
-    # Create the ROI calculator HTML with embedded scripts
-    roi_calculator_html = '''
-    <div id="tts-tool"></div>
-    <script src="https://cdn.jsdelivr.net/gh/ShreyashCJ/roi_calculator/3.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const roiNamespace = window["roi-calculator"];
-        if (roiNamespace && typeof roiNamespace.default === "function") {
-          roiNamespace.default(document.getElementById("tts-tool"), {});
-        } else if (typeof roiNamespace === "function") {
-          roiNamespace(document.getElementById("tts-tool"), {});
-        } else {
-          console.error("roi-calculator function not loaded.", roiNamespace);
-        }
-      });
-    </script>
-    '''
-    
-    # Use Streamlit components to render the HTML with increased height
-    components.html(roi_calculator_html, height=1400, scrolling=False)
-    
-    # Add some additional information below the calculator with proper spacing
-    st.markdown("---")
-    st.markdown("### 💡 Tips for Using the ROI Calculator")
-    
-    # Add bottom margin for better spacing
-    st.markdown('<div style="margin-bottom: 2rem;"></div>', unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-        **Technology Selection**
-        - Choose between Highest Quality, Balanced, or Cost Effective tabs
-        - Compare different LLM, TTS, and STT providers
-        - See real-time cost updates as you change selections
-        """)
-    
-    with col2:
-        st.markdown("""
-        **Cost Breakdown**
-        - Switch between per minute, per 1k characters, or custom pricing
-        - View detailed cost breakdowns for each component
-        - Optimize your configuration for best ROI
-        """)
-    
-    with col3:
-        st.markdown("""
-        **Parameters**
-        - Adjust LLM input size and call duration
-        - Set AI agent talk time percentage
-        - Fine-tune your usage patterns for accurate calculations
-        """)
-    
-    # Add extra bottom margin
-    st.markdown('<div style="margin-bottom: 3rem;"></div>', unsafe_allow_html=True)
 
 
 if __name__ == "__main__":

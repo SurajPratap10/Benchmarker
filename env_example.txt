@@ -1,14 +1,6 @@
 # TTS Benchmarking Tool - Environment Variables
 # Copy this file to .env and fill in your API keys
 
-# Murf AI API Key (Standard Model)
-# Get from: https://murf.ai/api
-MURF_API_KEY=your_murf_api_key_here
-
-# Murf Falcon API Key (Turbo Stream Model - Faster)
-# Get from: https://murf.ai/api
-MURF_FALCON_API_KEY=your_murf_falcon_api_key_here
-
 # Deepgram API Key (Used for both Aura 1 and Aura 2 models)
 # Get from: https://console.deepgram.com/
 DEEPGRAM_API_KEY=your_deepgram_api_key_here
@@ -26,11 +18,6 @@ OPENAI_API_KEY=your_openai_api_key_here
 # Get from: https://play.cartesia.ai/
 CARTESIA_API_KEY=your_cartesia_api_key_here
 
-# Sarvam AI API Key
-# Get from: https://www.sarvam.ai/
-# Example format: sk_akrybn7o_LsNsYewSlPfHpEukqZAB8yGX
-SARVAM_API_KEY=sk_akrybn7o_LsNsYewSlPfHpEukqZAB8yGX
-
 # Optional: Streamlit Configuration
 STREAMLIT_SERVER_PORT=8501
 STREAMLIT_SERVER_ADDRESS=0.0.0.0
@@ -39,3 +26,8 @@ STREAMLIT_SERVER_ADDRESS=0.0.0.0
 ENABLE_API_KEY_VALIDATION=true
 MAX_CONCURRENT_REQUESTS=10
 REQUEST_TIMEOUT_SECONDS=30
+
+# Authentication Settings
+BENCHMARKER_USERNAME=admin
+BENCHMARKER_PASSWORD=benchmarker2024
+SESSION_TIMEOUT_MINUTES=60

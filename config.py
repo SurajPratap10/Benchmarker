@@ -18,42 +18,6 @@ class TTSConfig:
 
 # TTS Provider Configurations
 TTS_PROVIDERS = {
-    "murf": TTSConfig(
-        name="Murf AI",
-        api_key_env="MURF_API_KEY", 
-        base_url="https://api.murf.ai/v1/speech/generate",
-        supported_voices=["en-US-natalie", "en-US-miles", "en-US-amara", "en-US-maverick", "en-US-ken", "en-US-terrell"],
-        max_chars=3000,
-        supports_streaming=False,
-        model_name="Murf AI TTS v1"
-    ),
-    "murf_falcon": TTSConfig(
-        name="Murf AI Falcon",
-        api_key_env="MURF_API_KEY",
-        base_url="https://api.murf.ai/v1/speech/turbo-stream",
-        supported_voices=["en-US-natalie", "en-US-miles", "en-US-amara", "en-US-maverick", "en-US-ken", "en-US-terrell"],
-        max_chars=3000,
-        supports_streaming=True,
-        model_name="Murf Falcon Turbo"
-    ),
-    "murf_falcon_oct13": TTSConfig(
-        name="Murf Falcon Oct 13",
-        api_key_env="MURF_API_KEY",
-        base_url="https://api.murf.ai/v1/speech/stream",
-        supported_voices=["en-US-wayne", "en-US-marcus", "en-US-natalie", "en-US-miles", "en-US-amara", "en-US-maverick", "en-US-ken", "en-US-terrell"],
-        max_chars=3000,
-        supports_streaming=True,
-        model_name="FALCON"
-    ),
-    "murf_falcon_oct23": TTSConfig(
-        name="Murf Falcon Oct 23",
-        api_key_env="MURF_API_KEY",
-        base_url="https://global.api.murf.ai/v1/speech/stream",
-        supported_voices=["en-US-wayne", "en-UK-hazel", "en-US-marcus", "en-US-natalie", "en-US-miles", "en-US-amara", "en-US-maverick", "en-US-ken", "en-US-terrell"],
-        max_chars=3000,
-        supports_streaming=True,
-        model_name="FALCON"
-    ),
     "deepgram": TTSConfig(
         name="Deepgram Aura 1",
         api_key_env="DEEPGRAM_API_KEY",
@@ -116,15 +80,6 @@ TTS_PROVIDERS = {
         max_chars=5000,
         supports_streaming=True,
         model_name="Cartesia Sonic 3.0"
-    ),
-    "sarvam": TTSConfig(
-        name="Sarvam AI",
-        api_key_env="SARVAM_API_KEY",
-        base_url="https://api.sarvam.ai/text-to-speech",
-        supported_voices=["en-IN-male", "en-IN-female", "hi-IN-male", "hi-IN-female"],
-        max_chars=5000,
-        supports_streaming=False,
-        model_name="bulbul:v2"
     )
 }
 

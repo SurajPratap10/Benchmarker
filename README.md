@@ -4,8 +4,9 @@ Production-ready benchmarking tool for comparing Text-to-Speech (TTS) providers 
 
 ## Features
 
-- **Multi-Provider Support**: OpenAI, Murf AI, Deepgram, ElevenLabs, Cartesia
-- **Comprehensive Metrics**: Latency, success rates, file sizes, quality analysis
+- **Multi-Provider Support**: OpenAI, Deepgram, ElevenLabs, Cartesia
+- **Secure Authentication**: Login system with session management
+- **Comprehensive Metrics**: TTFB, success rates, file sizes, quality analysis
 - **ELO Rating System**: Chess-style rankings for objective provider comparison
 - **Interactive Visualizations**: Real-time charts and analytics
 - **Blind Testing**: Unbiased audio quality comparison
@@ -51,11 +52,24 @@ Create a `.env` file with your API credentials:
 ```bash
 # Required: At least one provider API key
 OPENAI_API_KEY=your_openai_api_key_here
-MURF_API_KEY=your_murf_api_key_here
 DEEPGRAM_API_KEY=your_deepgram_api_key_here
 ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 CARTESIA_API_KEY=your_cartesia_api_key_here
+
+# Authentication (optional - defaults shown)
+BENCHMARKER_USERNAME=admin
+BENCHMARKER_PASSWORD=benchmarker2024
+SESSION_TIMEOUT_MINUTES=60
 ```
+
+### Multi-User Support
+
+Benchmarker now supports multiple users:
+- **Sign Up**: New users can create accounts from the login page
+- **Personal Data**: Each user sees only their own benchmark results
+- **Shared Leaderboard**: ELO ratings and leaderboard are shared across all users
+
+**First User**: Simply click "Sign Up" tab on the login page to create your account
 
 ## Core Components
 
@@ -114,11 +128,13 @@ docker run -p 8501:8501 --env-file .env tts-benchmark
 
 ## Security
 
-- Environment-based API key configuration
-- Input validation and sanitization
-- Rate limiting (60 requests/minute per session)
-- Secure session management
-- No permanent audio storage
+- **Authentication System**: Secure login with username/password
+- **Session Management**: 60-minute session timeout (configurable)
+- **Password Hashing**: SHA-256 hashing for stored credentials
+- **Environment-based Configuration**: API keys and credentials via env variables
+- **Input Validation**: Sanitization and validation of all user inputs
+- **Rate Limiting**: 60 requests/minute per session
+- **No Permanent Audio Storage**: Audio files not stored on disk
 
 ## Database
 
